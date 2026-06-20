@@ -1,39 +1,59 @@
 # 🏠 Housing Price Prediction — EDA & Regression Models
 
 Two end-to-end data science projects on classic housing datasets:
-- **Boston Housing** — In-depth Exploratory Data Analysis (EDA)
-- **California Housing** — Machine Learning Regression (R² = 0.79)
+- **Boston Housing** — Full ML Pipeline with Feature Importance Analysis (R² = 0.80)
+- **California Housing** — Multi-model Comparison (R² = 0.79)
 
 ---
 
-## 📁 Project 1: Boston Housing — EDA
+## 📁 Project 1: Boston Housing — Full ML Pipeline
 
 ### Dataset
-- 506 records, 14 features
+- 506 records, 13 features
 - Target: `medv` (Median house value in $1000s)
+- Source: BostonHousing.csv
 
-### What's covered
-- Data loading, shape, info, describe
-- Missing value detection & handling (fillna, replace)
-- Sorting, indexing (loc/iloc), groupby, pivot_table, crosstab
-- Feature engineering with `apply()` and `map()`
-- Automated EDA reports using **ydata-profiling** and **sweetviz**
+### ML Pipeline
+1. **EDA** — ydata-profiling auto report, correlation heatmap, distributions
+2. **Preprocessing** — Median imputation (missing `rm`), IQR outlier capping, RobustScaler
+3. **Train/Test Split** — 80/20 (404 train, 102 test)
+4. **Model**: RandomForestRegressor
+
+### Results
+
+| Metric | Score |
+|--------|-------|
+| **R² Score** | **0.80** |
+| MSE | 14.68 |
+| MAE | 2.46 |
+
+### 🔑 Feature Importance
+
+| Feature | Importance | Description |
+|---------|-----------|-------------|
+| `rm` | **46%** | Average number of rooms |
+| `lstat` | **36%** | % lower status population |
+| `dis` | 6% | Distance to employment centers |
+| `crim` | 4% | Crime rate |
+| Others | 8% | Remaining features |
+
+**Key insight**: Room count and socioeconomic status explain **82%** of house price variation.
 
 ---
 
-## 📁 Project 2: California Housing — Regression Models
+## 📁 Project 2: California Housing — Multi-model Comparison
 
 ### Dataset
-- 20,640 records, 8 features (loaded from `sklearn.datasets`)
+- 20,640 records, 8 features
 - Target: Median house value in $100,000s
+- Source: `sklearn.datasets.fetch_california_housing()`
 
 ### ML Pipeline
 1. **EDA** — Correlation heatmap, feature distributions, skewness/kurtosis
-2. **Outlier Detection** — IQR method
-3. **Preprocessing** — IQR capping + RobustScaler
-4. **Train/Test Split** — 80/20
+2. **Preprocessing** — IQR outlier capping, RobustScaler
+3. **Train/Test Split** — 80/20 (16,512 train, 4,128 test)
 
-### Model Results
+### Model Comparison
 
 | Model | R² Score | MSE | MAE |
 |-------|----------|-----|-----|
@@ -53,10 +73,11 @@ Two end-to-end data science projects on classic housing datasets:
 |----------|-------|
 | Language | Python |
 | Data Analysis | Pandas, NumPy |
-| Visualization | Matplotlib, Seaborn, Missingno |
+| Visualization | Matplotlib, Seaborn |
 | Auto EDA | ydata-profiling, Sweetviz |
 | ML Models | Scikit-learn (RandomForest, GradientBoosting, ExtraTrees, LinearSVR) |
-| Preprocessing | RobustScaler, IQR Outlier Capping |
+| Tuning | GridSearchCV, RandomizedSearchCV |
+| Preprocessing | SimpleImputer, RobustScaler, IQR Outlier Capping |
 
 ---
 
@@ -66,9 +87,9 @@ Two end-to-end data science projects on classic housing datasets:
 pip install pandas numpy matplotlib seaborn scikit-learn missingno ydata-profiling sweetviz
 ```
 
-Run notebooks in order:
-1. `EDA1_BostonHousing_24Sept.ipynb` — EDA
-2. `california_housing_random_regression_week5_2.ipynb` — ML Modeling
+Run notebooks:
+1. `BostonHousing_V3_submite.ipynb` — Boston full pipeline
+2. `california_housing_random_regression_week5_2.ipynb` — California multi-model
 
 ---
 
@@ -77,13 +98,11 @@ Run notebooks in order:
 ```
 housing-price-prediction/
 │
-├── EDA1_BostonHousing_24Sept.ipynb                    # Boston EDA
-├── california_housing_random_regression_week5_2.ipynb # California ML
+├── BostonHousing_V3_submite.ipynb                     # Boston — R²=0.80
+├── california_housing_random_regression_week5_2.ipynb # California — R²=0.79
 ├── BostonHousing.csv                                  # Boston dataset
 └── README.md
 ```
-
-> California Housing dataset is loaded directly from `sklearn.datasets` — no download needed.
 
 ---
 
